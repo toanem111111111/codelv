@@ -14,7 +14,7 @@ class IndexController extends Controller
 
         $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
         $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
-        $product=Product::orderBy('id_product','DESC')->where('status_product',1)->search()->paginate(3);
+        $product=Product::orderBy('id_product','DESC')->where('status_product',1)->search()->paginate(6);
         return view('pages.homeuser')->with(compact('category','brand','product'));
     }
 
@@ -23,7 +23,7 @@ class IndexController extends Controller
         $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
         $category_id=Category::where('id_category',$id_category)->first();
         $product=Product::where('status_product',1)->where('id_category',$category_id->id_category)
-            ->orderBy('id_product','DESC')->search()->paginate(3);
+            ->orderBy('id_product','DESC')->search()->paginate(6);
 
         return view('pages.Category.showcategory')->with(compact('category','brand','product'));
     }
@@ -33,7 +33,7 @@ class IndexController extends Controller
         $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
         $brand_id=Brand::where('id',$id_brand)->first();
         $product=Product::where('status_product',1)->where('id_brand',$brand_id->id)
-            ->orderBy('id_product','DESC')->search()->paginate(3);
+            ->orderBy('id_product','DESC')->search()->paginate(6);
         return view('pages.Brand.showbrand')->with(compact('category','brand','product'));
 
     }

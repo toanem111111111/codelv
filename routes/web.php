@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/',function (){
     return view('pages.homeuser');
@@ -23,6 +24,9 @@ Route::post('add-cart/{id_product}',[CartController::class,'showcart']);
 Route::post('/update-cart-quantity',[CartController::class,'update_cart_quantity']);
 Route::get('/show-cart',[CartController::class,'show_cart']);
 Route::get('/delete-to-cart/{rowId}',[CartController::class,'delete_to_cart']);
+/////////////Checkout
+Route::get('/login-checkout',[CheckoutController::class,'login_checkout']);
+Route::post('/add-customer',[CheckoutController::class,'add_customer']);
 
 
 /////////////Reset pass
@@ -33,16 +37,14 @@ Route::post('reset-password', [ForgotPasswordController::class, 'ResetPasswordSt
 
 
 //////backend admin
-Route::get('/admin',[App\Http\Controllers\AdminController::class,'index']);
-Route::get('/adminhome',[App\Http\Controllers\AdminController::class,'homeadmin']);
-Route::post('/adminlogin',[App\Http\Controllers\AdminController::class,'loginadmin']);
-Route::get('/adminlogout',[App\Http\Controllers\AdminController::class,'logoutadmin']);
+//Route::get('/admin',[App\Http\Controllers\AdminController::class,'index']);
+//Route::get('/adminhome',[App\Http\Controllers\AdminController::class,'homeadmin']);
+//Route::post('/adminlogin',[App\Http\Controllers\AdminController::class,'loginadmin']);
+//Route::get('/adminlogout',[App\Http\Controllers\AdminController::class,'logoutadmin']);
 
 
 
 ///Danh muc san pham
-
-
 
 Route::resource('/danhmuc',CategoryController::class);
 
@@ -58,6 +60,8 @@ Route::resource('/danhmuc',CategoryController::class);
 //Route::post('/save-category',[App\Http\Controllers\CategoryController::class,'save_category']);
 //Route::post('/update-category/{idcategory}',[App\Http\Controllers\CategoryController::class,'update_category']);
 //Route::get('/tim-kiem',[App\Http\Controllers\CategoryController::class,'search']);
+
+
 ////Brand
 
 Route::resource('/thuonghieu',BrandController::class);
