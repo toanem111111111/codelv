@@ -26,7 +26,14 @@ Route::get('/show-cart',[CartController::class,'show_cart']);
 Route::get('/delete-to-cart/{rowId}',[CartController::class,'delete_to_cart']);
 /////////////Checkout
 Route::get('/login-checkout',[CheckoutController::class,'login_checkout']);
+Route::get('/logout-checkout',[CheckoutController::class,'logout_checkout']);
+
 Route::post('/add-customer',[CheckoutController::class,'add_customer']);
+Route::post('/add-shipping',[CheckoutController::class,'add_shipping']);
+
+Route::get('/payment',[CheckoutController::class,'payment']);
+Route::post('/login-customer',[CheckoutController::class,'login_customer']);
+Route::get('/checkout',[CheckoutController::class,'checkout']);
 
 
 /////////////Reset pass

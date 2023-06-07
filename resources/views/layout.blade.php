@@ -90,14 +90,14 @@
 
                                 <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
                                 <?php
-                                   $customer_id = Session::get('customer_id');
-                                   $shipping_id = Session::get('shipping_id');
-                                   if($customer_id!=NULL && $shipping_id==NULL){
+                                   $id_customer = Session::get('id_customer');
+                                   $id_shipping = Session::get('id_shipping');
+                                   if($id_customer!=NULL && $id_shipping==NULL){
                                  ?>
                                   <li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
 
                                 <?php
-                                 }elseif($customer_id!=NULL && $shipping_id!=NULL){
+                                 }elseif($id_customer!=NULL && $id_shipping!=NULL){
                                  ?>
                                  <li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                                  <?php
@@ -111,8 +111,8 @@
 
                                 <li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                                 <?php
-                                   $customer_id = Session::get('customer_id');
-                                   if($customer_id!=NULL){
+                                   $id_customer = Session::get('id_customer');
+                                   if($id_customer!=NULL){
                                  ?>
                                   <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
 
