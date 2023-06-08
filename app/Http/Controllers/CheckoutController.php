@@ -88,4 +88,55 @@ class CheckoutController extends Controller
 
     }
 
+    public function order_payment(Request $request){
+        //insert payment_method
+//        $content = Cart::content();
+//        echo $content;
+
+        $data = array();
+        $data['name_payment'] = $request->payment_option;
+        $data['status_payment'] = 'Đang chờ xử lý...';
+        $id_payment = DB::table('tbl_payment')->insertGetId($data);
+
+        //insert order
+        $order_data = array();
+        $order_data['id_customer'] = Session::get('id_customer');
+        $order_data['id_shipping'] = Session::get('id_shipping');
+        $order_data['id_payment'] = $id_payment;
+        $order_data['total_order'] = Cart::total();
+        $order_data['status_order'] = 'Đang chờ xử lý...';
+        $order_id = DB::table('tbl_order')->insertGetId($order_data);
+
+        //insert order_details
+        $content = Cart::content();
+        foreach($content as $pro_content){
+            $order_d_data['id_order'] = $order_id;
+            $order_d_data['id_product'] = $pro_content->id;
+            $order_d_data['name_product'] = $pro_content->name;
+            $order_d_data['quantity'] = $pro_content->qty;
+            $order_d_data['price'] = $pro_content->price;
+            DB::table('tbl_detailsorder')->insert($order_d_data);
+
+        }
+        $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
+        $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
+        return view('pages.Notify.notify')->with(compact('category','brand'));
+//        if($data['name_payment']==1){
+//
+//            echo 'Thanh toán thẻ ATM';
+//
+//        }elseif($data['name_payment']==2){
+//            Cart::destroy();
+//            $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
+//            $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
+//            return view('pages.Notify.notify')->with(compact('category','brand'));
+//
+//        }else{
+//            echo 'Thẻ ghi nợ';
+//
+//        }
+
+        //return Redirect::to('/payment');
+    }
+
 }

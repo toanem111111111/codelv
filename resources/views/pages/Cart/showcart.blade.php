@@ -81,8 +81,8 @@
                         </ul>
                         {{-- 	<a class="btn btn-default update" href="">Update</a> --}}
                         <?php
-                        $customer_id = Session::get('customer_id');
-                        if($customer_id!=NULL){
+                        $id_customer = Session::get('id_customer');
+                        if($id_customer!=NULL){
                             ?>
 
                         <a class="btn btn-default check_out" href="{{URL::to('/checkout')}}">Thanh toán</a>

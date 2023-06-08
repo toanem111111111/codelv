@@ -92,7 +92,8 @@
                                 <?php
                                    $id_customer = Session::get('id_customer');
                                    $id_shipping = Session::get('id_shipping');
-                                   if($id_customer!=NULL && $id_shipping==NULL){
+
+                                   if($id_customer!=NULL){
                                  ?>
                                   <li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
 
@@ -117,7 +118,7 @@
                                   <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
 
                                 <?php
-                            }else{
+                                }else{
                                  ?>
                                  <li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
                                  <?php

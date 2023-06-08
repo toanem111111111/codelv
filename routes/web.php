@@ -32,6 +32,9 @@ Route::post('/add-customer',[CheckoutController::class,'add_customer']);
 Route::post('/add-shipping',[CheckoutController::class,'add_shipping']);
 
 Route::get('/payment',[CheckoutController::class,'payment']);
+
+Route::post('/order-payment',[CheckoutController::class,'order_payment']);
+
 Route::post('/login-customer',[CheckoutController::class,'login_customer']);
 Route::get('/checkout',[CheckoutController::class,'checkout']);
 
