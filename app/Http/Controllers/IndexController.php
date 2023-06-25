@@ -51,8 +51,6 @@ class IndexController extends Controller
         foreach($details as $key => $value){
             $id_product = $value->id_category;
         }
-
-
         $related = DB::table('tbl_product')
             ->join('tbl_category','tbl_category.id_category','=','tbl_product.id_category')
             ->join('tbl_brand','tbl_brand.id','=','tbl_product.id_brand')

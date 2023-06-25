@@ -85,7 +85,6 @@
                                     <option value="1">Cái</option>
                                     <option value="2">Bộ</option>
                                     <option value="3">Chai</option>
-
                                 </select>
                             </div>
                             <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Brand;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -121,7 +122,16 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        Brand::find($id)->delete();
-        return redirect()->back()->with('message','Xóa thành công.');
+
+        DB::beginTransaction();
+        try {
+            $brand = Brand::find($id);
+            $brand->delete();
+            DB::commit();
+            return redirect()->back()->with('message','Xóa thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('message','Thương hiệu hiện đang có sản phẩm không thể xóa được.');
+        }
     }
 }

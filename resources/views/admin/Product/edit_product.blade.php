@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Khối lượng</label>
-                                <input type="text" value="{{$product->weigh_product}}" name="weight_product" class="form-control"  >
+                                <input type="text" value="{{$product->weigh_product}}" name="weigh_product" class="form-control"  >
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
@@ -58,7 +58,7 @@
                                 <label for="exampleInputPassword1">Danh mục sản phẩm</label>
                                 <select name="id_category" class="form-control input-sm m-bot15">
                                     @foreach($category as $key => $cate_pro)
-                                        <option {{$cate_pro->id_category==$product->id_categor ? 'selected' : ''}} value="{{$cate_pro->id_category}}">{{$cate_pro->name_category}}</option>
+                                        <option {{$cate_pro->id_category==$product->id_category ? 'selected' : ''}} value="{{$cate_pro->id_category}}">{{$cate_pro->name_category}}</option>
                                     @endforeach
 
                                 </select>

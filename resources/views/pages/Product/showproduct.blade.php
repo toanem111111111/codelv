@@ -30,8 +30,8 @@
                         <span>
 									<span>{{number_format($value->price_product).'VNĐ'}}</span>
 
-									<label>Số lượng:</label>
-									<input name="qty" type="number" min="1"  value="1" />
+{{--									<label>Số lượng:</label>--}}
+{{--									<input name="qty" type="number" min="1"  value="1" />--}}
 									<input name="productid_hidden" type="hidden"  value="{{$value->id_product}}" />
 									<button type="submit" class="btn btn-fefault cart">
 										<i class="fa fa-shopping-cart"></i>
@@ -43,11 +43,11 @@
 
                     <p><b>Tình trạng:</b>@if($value->stock_product==0)
                                              <?php
-                            echo"het hang";
+                            echo"hết hàng";
                             ?>
                         @else
                                              <?php
-                            echo'con hang';
+                            echo'còn hàng';
                             ?>
                         @endif</p>
                     <p><b>Điều kiện:</b> Mơi 100%</p>

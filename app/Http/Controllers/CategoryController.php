@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -117,7 +119,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
-        return redirect()->back()->with('message','Xóa thành công.');
+        DB::beginTransaction();
+        try {
+            $category = Category::find($id);
+            $category->delete();
+            DB::commit();
+            return redirect()->back()->with('message','Xóa thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('message','Danh mục hiện đang có sản phẩm không thể xóa được.');
+        }
     }
 }

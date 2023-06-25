@@ -10,9 +10,26 @@
                 </ol>
             </div>
 
-            <div class="register-req">
-                <p>Vui lòng đăng ký hoặc đăng nhập để thanh toán giỏ hàng và xem lại lịch sử mua hàng</p>
-            </div><!--/register-req-->
+{{--            <div class="register-req">--}}
+{{--                <p>Vui lòng đăng ký hoặc đăng nhập để thanh toán giỏ hàng và xem lại lịch sử mua hàng</p>--}}
+{{--            </div><!--/register-req-->--}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            <!-- <li>vui long nhap</li> -->
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <?php
+            $message = Session::get('message');
+            if($message){
+                echo '<span class="text-alert">'.$message.'</span>';
+                Session::put('message',null);
+            }
+            ?>
 
             <div class="shopper-informations">
                 <div class="row">
@@ -23,11 +40,11 @@
                             <div class="form-one">
                                 <form action="{{URL::to('/add-shipping')}}" method="POST">
                                     {{csrf_field()}}
-                                    <input type="text" name="email" placeholder="Email">
-                                    <input type="text" name="name" placeholder="Họ và tên">
-                                    <input type="text" name="address" placeholder="Địa chỉ">
-                                    <input type="text" name="phone" placeholder="Phone">
-                                    <textarea name="note"  placeholder="Ghi chú đơn hàng của bạn" rows="16"></textarea>
+                                    <input type="text" value="{{old('email')}}" name="email" placeholder="Email">
+                                    <input type="text" value="{{old('name')}}" name="name" placeholder="Họ và tên">
+                                    <input type="text" value="{{old('address')}}" name="address" placeholder="Địa chỉ">
+                                    <input type="text" value="{{old('phone')}}" name="phone" placeholder="Phone">
+                                    <textarea name="note"  placeholder="Ghi chú đơn hàng của bạn" rows="16">{{old('note')}}</textarea>
                                     <input type="submit" value="Gửi" name="send_order" class="btn btn-primary btn-sm">
                                 </form>
                             </div>
@@ -37,22 +54,22 @@
 
                 </div>
             </div>
-            <div class="review-payment">
-                <h2>Xem lại giỏ hàng</h2>
-            </div>
+{{--            <div class="review-payment">--}}
+{{--                <h2>Xem lại giỏ hàng</h2>--}}
+{{--            </div>--}}
 
 
-            <div class="payment-options">
-					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
-					</span>
-                <span>
-						<label><input type="checkbox"> Check Payment</label>
-					</span>
-                <span>
-						<label><input type="checkbox"> Paypal</label>
-					</span>
-            </div>
+{{--            <div class="payment-options">--}}
+{{--					<span>--}}
+{{--						<label><input type="checkbox"> Direct Bank Transfer</label>--}}
+{{--					</span>--}}
+{{--                <span>--}}
+{{--						<label><input type="checkbox"> Check Payment</label>--}}
+{{--					</span>--}}
+{{--                <span>--}}
+{{--						<label><input type="checkbox"> Paypal</label>--}}
+{{--					</span>--}}
+{{--            </div>--}}
         </div>
     </section> <!--/#cart_items-->
 

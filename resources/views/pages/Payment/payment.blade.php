@@ -31,7 +31,13 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    @php
+                        $total = 0;
+                    @endphp
+
                     @foreach($content as $v_content)
+
                         <tr>
                             <td class="cart_product">
                                 <a href=""><img src="{{URL::to('public/uploads/product/'.$v_content->options->image)}}" width="90" alt="" /></a>
@@ -64,26 +70,40 @@
                                 <a class="cart_quantity_delete" href="{{URL::to('/delete-to-cart/'.$v_content->rowId)}}"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
+                            <?php
+                            $total+=$subtotal;
+                            ?>
+
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-            <h4 style="margin:40px 0;font-size: 20px;">Chọn hình thức thanh toán</h4>
-            <form method="POST" action="{{URL::to('/order-payment')}}">
-                {{ csrf_field() }}
-                <div class="payment-options">
-					<span>
-						<label><input name="payment_option" value="ATM" type="checkbox"> Trả bằng thẻ ATM</label>
-					</span>
-                    <span>
-						<label><input name="payment_option" value="Tiền mặt" type="checkbox"> Nhận tiền mặt</label>
-					</span>
-                    <span>
-						<label><input name="payment_option" value="Thẻ Nợ" type="checkbox"> Thanh toán thẻ ghi nợ</label>
-					</span>
-                    <input type="submit" value="Đặt hàng" name="send_order_place" class="btn btn-primary btn-sm">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="total_area">
+                            <ul>
+                                <li>Thành tiền <span>{{number_format($total,0,',','.')}}đ</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
+            </div>
+            <h4 style="margin:5px 0;font-size: 20px;">Chọn hình thức thanh toán</h4>
+            <div class="col-sm-2">
+                <form method="POST" action="{{URL::to('/order-payment')}}">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-default check_out" >Thanh toán Tiền mặt
+                    </button>
+                </form>
+            </div>
+            <form method="POST" action="{{url('/p-payment')}}">
+                {{ csrf_field() }}
+                <input type="hidden" name="total_vnpay" value="{{$total}}">
+
+                <button type="submit" class="btn btn-default check_out" name="redirect">Thanh toán VNPAY
+                </button>
             </form>
+
         </div>
     </section> <!--/#cart_items-->
 

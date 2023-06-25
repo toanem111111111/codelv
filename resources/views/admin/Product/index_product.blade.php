@@ -37,7 +37,7 @@
                         <th>Slug</th>
                         <th>Giá</th>
                         <th>Hình sản phẩm</th>
-                        <th>Mô tả</th>
+{{--                        <th>Mô tả</th>--}}
                         <th>Khối lượng</th>
                         <th>Danh mục</th>
                         <th>Thương hiệu</th>
@@ -57,7 +57,7 @@
                             <td>{{ $pro->slug_product }}</td>
                             <td>{{ $pro->price_product }}</td>
                             <td><img src="public/uploads/product/{{ $pro->image_product }}" height="250" width="180"></td>
-                            <td>{{ $pro->desc_product }}</td>
+{{--                            <td>{{ $pro->desc_product }}</td>--}}
                             <td>{{ $pro->weigh_product }}</td>
                             <td>{{ $pro->product_category->name_category}}</td>
                             <td>{{ $pro->product_brand->name_brand }}</td>

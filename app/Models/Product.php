@@ -35,4 +35,8 @@ class Product extends Model
         return $this->belongsTo('App\Models\Brand','id_brand','id');
     }
 
+    public function details_product(){
+        return $this->hasMany('App\Models\Detailsorder');
+    }
+
 }
