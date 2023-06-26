@@ -30,4 +30,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'facebook' => [
+        'client_id' => '560933119339510',  //client face của bạn
+        'client_secret' => '2d1c4a61ec283b1e63a484860f290b59',  //client app service face của bạn
+        'redirect' => 'http://localhost/lvtnshop/login-checkout/callback' //callback trả về
+    ],
+
+
+
 ];

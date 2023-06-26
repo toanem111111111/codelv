@@ -9,6 +9,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/',function (){
     return view('pages.homeuser');
@@ -41,6 +42,13 @@ Route::get('/notify',[CheckoutController::class,'notify']);
 
 Route::post('/login-customer',[CheckoutController::class,'login_customer']);
 Route::get('/checkout',[CheckoutController::class,'checkout']);
+
+//Login facebook
+Route::get('/login-facebook',[AdminController::class,'login_facebook']);
+Route::get('/customer/facebook/callback',[AdminController::class,'callback_facebook_customer']);
+
+
+
 
 ////////////////////
 Route::get('/manage-order',[CheckoutController::class,'manage_order']);
