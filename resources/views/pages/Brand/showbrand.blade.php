@@ -17,7 +17,17 @@
                                 <img src="{{URL::to('public/uploads/product/'.$pro->image_product)}}" alt="" />
                                 <h2>{{number_format($pro->price_product).' '.'VNĐ'}}</h2>
                                 <p>{{$pro->name_product}}</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                <form action="{{URL::to('add-cart/'.$pro->id_product)}}" method="POST">
+                                    {{ csrf_field() }}
+                                    <span>
+									<input name="productid_hidden" type="hidden"  value="{{$pro->id_product}}" />
+									<button type="submit" class="btn btn-fefault cart">
+										<i class="fa fa-shopping-cart"></i>
+										Thêm giỏ hàng
+									</button>
+
+								</span>
+                                </form>
                             </div>
 
                         </div>

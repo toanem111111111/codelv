@@ -4,7 +4,26 @@
     <section id="form"><!--form-->
         <div class="container">
             <div class="row">
+
                 <div class="col-sm-4 col-sm-offset-1">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    <!-- <li>vui long nhap</li> -->
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <?php
+                    $message = Session::get('message');
+                    if($message){
+                        echo '<span class="text-alert">'.$message.'</span>';
+                        Session::put('message',null);
+                    }
+                    ?>
+
                     <div class="login-form"><!--login form-->
                         <h2>Đăng nhập tài khoản</h2>
                         <form action="{{URL::to('/login-customer')}}" method="POST">
@@ -28,14 +47,14 @@
                                 margin: 5px;
                             }
                         </style>
+                        <h5>Đăng nhập tài khoản Google</h5>
                         <ul class="list-login">
                             <li>
-                                <a href="{{url('login-facebook')}}">
-                                    <img width="10%" alt="Đăng nhập bằng tài khoản facebook" src="{{asset('public/frontend/images/fb.jpg')}}">
+                                <a href="{{ route('login-google') }}">
+                                    <img width="20%" alt="Đăng nhập bằng tài khoản Google" src="{{asset('public/frontend/images/gg.jpg')}}">
                                 </a>
                             </li>
                         </ul>
-
 
                     </div><!--/login form-->
                 </div>
@@ -43,8 +62,9 @@
                     <h2 class="or">Hoặc</h2>
                 </div>
                 <div class="col-sm-4">
-                    <div class="signup-form"><!--sign up form-->
+                       <div class="signup-form"><!--sign up form-->
                         <h2>Đăng ký</h2>
+
                         <form action="{{URL::to('/add-customer')}}" method="POST">
                             {{ csrf_field() }}
                             <input type="text" name="name_customer" placeholder="Họ và tên"/>

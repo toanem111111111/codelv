@@ -3,6 +3,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Customer;
 class Order extends Model
 {
     use HasFactory;
@@ -26,8 +27,20 @@ class Order extends Model
         return $this->belongsTo('App\Models\Customer','id_customer','id_customer');
     }
 
+//    public function order_customer()
+//    {
+//        return $this->belongsTo(Customer::class,'id_customer');
+//    }
+
+
     public function details_order(){
         return $this->hasMany('App\Models\Detailsorder');
+    }
+    public function scopeSearch($query, $request)
+    {
+        if($request->key === null) return $query;
+        return $query->where('name_customer', 'LIKE', '%' . $request->key . '%')
+            ->orWhere('phone', 'LIKE', '%' . $request->key . '%');
     }
 
 }

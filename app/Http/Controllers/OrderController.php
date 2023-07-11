@@ -25,31 +25,15 @@ class OrderController extends Controller
         $data['total_order']=$request->total_order;
         $data['status_order'] = $request->payment_option;
         DB::table('tbl_order')->where('id_order',$id_order)->update($data);
-        Session::put('message','Cập nhật đơn hàng thành công');
+        Session::put('message','Cập nhật trạng thái đơn hàng thành công');
         return redirect()->back();
 
     }
     public function delete_order($id_order){
-//        Detailsorder::destroy($id_order);
-//        Order::destroy($id_order);
-//        Session::put('message','xóa đơn hàng thành công.');
-//        return redirect()->back();
-
-
-
-        DB::beginTransaction();
-        try {
-//            $d_order= Detailsorder::find($id_order);
-            $order=Order::find($id_order);
-
-//            $d_order->delete();
-            $order->delete();
-            DB::commit();
-            return redirect()->back()->with('message','Xóa thành công.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('message','Thương hiệu hiện đang có sản phẩm không thể xóa được.');
-        }
+        $order = Order::where('id_order',$id_order)->first();
+        $order->delete();
+        Session::put('message','Xóa đơn hàng thành công');
+        return redirect()->back();
     }
 
 

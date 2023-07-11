@@ -56,8 +56,7 @@
 
                                 </select>
                             </div>
-
-                            <button type="submit" name="add_category_product" class="btn btn-info">Thêm thương hiệu</button>
+                            <button type="submit" name="add_brand" class="btn btn-info">Thêm thương hiệu</button>
                         </form>
                     </div>
 

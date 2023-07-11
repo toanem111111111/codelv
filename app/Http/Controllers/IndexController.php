@@ -11,7 +11,6 @@ use DB;
 class IndexController extends Controller
 {
     public function home(){
-
         $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
         $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
         $product=Product::orderBy('id_product','DESC')->where('status_product',1)->search()->paginate(6);
@@ -58,7 +57,6 @@ class IndexController extends Controller
 
 
         return view('pages.Product.showproduct')->with(compact('category','brand','details','related'));
-
 
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2023 at 04:19 AM
+-- Generation Time: Jul 09, 2023 at 09:22 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -149,22 +149,6 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbladmin`
---
-
-CREATE TABLE `tbladmin` (
-  `id_admin` int(10) UNSIGNED NOT NULL,
-  `email_admin` varchar(255) NOT NULL,
-  `password_admin` varchar(255) NOT NULL,
-  `name_admin` varchar(255) NOT NULL,
-  `phone_admin` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_brand`
 --
 
@@ -180,12 +164,9 @@ CREATE TABLE `tbl_brand` (
 --
 
 INSERT INTO `tbl_brand` (`id`, `name_brand`, `desc_brand`, `status_brand`) VALUES
-(22, 'Yamaha', 'yamaha', 1),
-(28, 'Honda', 'Nhà sản xuất xe máy honda', 1),
-(29, 'Michelin', 'Nhà sản xuất michelin', 1),
-(30, 'Ohlins', 'nhà sản xuất đồ chơi xe máy onlins', 1),
-(31, 'Sum Racing', 'Nhà sản xuất đồ chơi xe máy Sum Racing', 1),
-(33, 'Motul', 'Motul - Dầu nhớt cao cấp được ưa chuộng nhất tại Pháp. Bảo Vệ Động Cơ Tối Ưu. Nhẹ Máy Mát Xe.', 1);
+(22, 'Yamaha', 'Yamaha Motor với niềm đam mê và khát khao sáng tạo, luôn đi tiên phong mang lại những sản phẩm tuyệt hảo và giá trị vượt trội thỏa mãn sự mong đợi của khách hàng.', 1),
+(28, 'Honda', 'Honda là một hãng xe Nhật Bản, nổi tiếng với các mẫu xe máy tại Việt Nam. Xe của Honda đa phần có thiết kế dễ nhìn, trung tính, phù hợp với mọi đối tượng khách hàng', 1),
+(29, 'Michelin', 'Nhà sản xuất michelin', 1);
 
 -- --------------------------------------------------------
 
@@ -216,6 +197,70 @@ INSERT INTO `tbl_category` (`id_category`, `name_category`, `desc_category`, `st
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_customer`
+--
+
+CREATE TABLE `tbl_customer` (
+  `id_customer` int(10) UNSIGNED NOT NULL,
+  `name_customer` varchar(255) NOT NULL,
+  `email_customer` varchar(255) NOT NULL,
+  `password_customer` varchar(255) NOT NULL,
+  `phone_customer` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_detailsorder`
+--
+
+CREATE TABLE `tbl_detailsorder` (
+  `id_detailsorder` int(10) UNSIGNED NOT NULL,
+  `id_order` int(10) UNSIGNED NOT NULL,
+  `id_product` int(10) UNSIGNED NOT NULL,
+  `name_product` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_order`
+--
+
+CREATE TABLE `tbl_order` (
+  `id_order` int(10) UNSIGNED NOT NULL,
+  `id_customer` int(10) UNSIGNED NOT NULL,
+  `id_shipping` int(10) UNSIGNED NOT NULL,
+  `id_payment` int(10) UNSIGNED NOT NULL,
+  `total_order` varchar(50) NOT NULL,
+  `status_order` varchar(50) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_payment`
+--
+
+CREATE TABLE `tbl_payment` (
+  `id_payment` int(10) UNSIGNED NOT NULL,
+  `name_payment` varchar(255) NOT NULL,
+  `status_payment` varchar(50) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_product`
 --
 
@@ -226,8 +271,8 @@ CREATE TABLE `tbl_product` (
   `price_product` double NOT NULL,
   `image_product` varchar(255) NOT NULL,
   `desc_product` text NOT NULL,
-  `id_category` int(11) NOT NULL,
-  `id_brand` int(11) NOT NULL,
+  `id_category` int(10) UNSIGNED NOT NULL,
+  `id_brand` int(10) UNSIGNED NOT NULL,
   `status_product` int(11) NOT NULL,
   `unit_product` int(11) NOT NULL,
   `stock_product` int(11) NOT NULL,
@@ -251,7 +296,38 @@ INSERT INTO `tbl_product` (`id_product`, `name_product`, `slug_product`, `price_
 (23, 'Đèn Led 2 tầng Zhi.Pat cho Dream II (Dream Thái), Super Dream', 'den-led-2-tang-zhipat-cho-dream-ii-dream-thai-super-dream', 1180000, 'den-pha-led-2-tang-zhipat-cho-dream-ii-dream-thai-super-dream-2013-slide-63dcc8481584130.jpg', 'Đèn Led 2 tầng Zhi.Pat Dream-II-THA cho Dream II (Dream Thái), Super Dream.\r\nZHI.PAT DREAM sở hữu thiết kế vượt trội nổi bật với vẻ đẹp cuốn hút riêng biệt. Thiết kế đèn định vị đầy phong cách cùng sắc cam nổi bật, mang đến nét nhìn hiện đại, trẻ trung và thể thao cho chiếc xe của bạn.\r\nVới 2 màu: Khói - định vị cam hoặc Si bạc - định vị cam.\r\nChính hãng Zhi.Pat Bảo hành 12 tháng.', 62, 28, 1, 1, 1, 0.2),
 (24, 'Đèn pha Led 2 tầng Zhi.Pat W110 THA cho Wave 100/110/110S đời 1997 - 2004', 'den-pha-led-2-tang-zhipat-w110-tha-cho-wave-100110110s-doi-1997-2004', 1200000, 'den-pha-led-02-tang-zhipat-w110-tha-cho-wave-100110110s-doi-1997-2004-1962-slide-638eac8dda9d662.jpg', 'Bộ sản phẩm đèn pha Led 2 tầng Zhi.Pat W110 THA\r\n+ Sử dụng cho các dòng xe : Xe Wave 100/110/110S đời 1997-2004\r\n+ Bộ sản phẩm bao gồm :\r\n- 01 bộ Đèn Led 02 tầng\r\n- 01 cáp nguồn (đính kèm chóa đèn)\r\n- 01 Móc khóa Zhi.Pat\r\n- 01 Thẻ Bảo hành chính hãng\r\n- 01 Bộ hướng dẫn sử dụng\r\n+ Sản phẩm có 03 mẫu:\r\n- Chóa đèn màu khói - định vị tím\r\n- Chóa đèn màu khói - định vị xanh\r\n- Chóa đèn màu khói - định vị đỏ\r\n+ Bảo hành chính hãng 12 tháng 1 đổi 1', 62, 22, 1, 1, 1, 1),
 (25, 'Dàn áo xe Dream II chính hãng', 'dan-ao-xe-dream-ii-chinh-hang', 904000, '360x360-1532448532-DanaoDreamII17.jpg', 'Thông tin sản phẩm:\r\n\r\n- Chất liệu: nhựa ABS nguyên sinh\r\n- Màu sắc: Xanh Rêu\r\n- Chịu nước Xử lý bề mặt: Sơn phun, qua hấp Sấy\r\n- Số lớp sơn trên bề mặt: 3 lớp\r\n\r\nHướng dẫn sử dụng:\r\n\r\n- Sử dụng các công cụ tháo lắp ốc vỏ nhựa xe máy\r\n- Sử dụng đúng các loại ốc vít để lắp vỏ nhựa\r\n\r\nLưu ý :\r\n\r\n- Tránh dùng các vật nhọn tiếp xúc trực tiếp bề mặt sản phẩm\r\n- Tránh dùng các loại vít có kích thước không phù hợp để tháo lắp\r\n- Tháo lắp đúng quy trình\r\n\r\nGiá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Bên cạnh đó, tuỳ vào loại sản phẩm, hình thức và địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí vận chuyển, phụ phí hàng cồng kềnh, thuế nhập khẩu (đối với đơn hàng giao từ nước ngoài có giá trị trên 1 triệu đồng).....', 63, 28, 1, 2, 1, 5),
-(26, 'Dàn áo xe Wave RS, Wave Alpha, Wave 100 – 110', 'dan-ao-xe-wave-rs-wave-alpha-wave-100-–-110', 1000000, '360x360-1532274657-danaoxewavealpha161.jpg', 'Dàn áo xe Wave RS, Wave Alpha, Wave 100 – 110 với thiết kế tinh xảo, đẹp mắt sẽ mang lại cho xe của bạn một hình ảnh khỏe khắn, mạnh mẽ và thẫm mỹ hơn. Vừa khít với các dòng xe này. Chúng tôi có thể chắc chắn rằng, sản phẩm dàn áo này sẽ luôn làm hài lòng khách hàng, kể cả những vị khách khó tính nhất.\r\n\r\nViệc thay thế dàn áo xe này sẽ khiến cho xe của bạn trở nên nổi bật. Giúp bạn tự tin hơn khi tham gia giao thông. Giúp bạn thể hiện cá tính và phong cách riêng của mình.', 63, 22, 1, 2, 1, 6);
+(26, 'Dàn áo xe Wave RS, Wave Alpha, Wave 100 – 110', 'dan-ao-xe-wave-rs-wave-alpha-wave-100-–-110', 99, '360x360-1532274657-danaoxewavealpha161.jpg', 'Dàn áo xe Wave RS, Wave Alpha, Wave 100 – 110 với thiết kế tinh xảo, đẹp mắt sẽ mang lại cho xe của bạn một hình ảnh khỏe khắn, mạnh mẽ và thẫm mỹ hơn. Vừa khít với các dòng xe này. Chúng tôi có thể chắc chắn rằng, sản phẩm dàn áo này sẽ luôn làm hài lòng khách hàng, kể cả những vị khách khó tính nhất.\r\n\r\nViệc thay thế dàn áo xe này sẽ khiến cho xe của bạn trở nên nổi bật. Giúp bạn tự tin hơn khi tham gia giao thông. Giúp bạn thể hiện cá tính và phong cách riêng của mình.', 63, 22, 1, 2, 1, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_shipping`
+--
+
+CREATE TABLE `tbl_shipping` (
+  `id_shipping` int(10) UNSIGNED NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `note` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_social_customer`
+--
+
+CREATE TABLE `tbl_social_customer` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `provider_user_id` varchar(100) NOT NULL,
+  `provider_user_email` varchar(100) NOT NULL,
+  `provider` varchar(100) NOT NULL,
+  `user` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -267,15 +343,16 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `google_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(6, 'Xuân Toàn', 'DH51801108@student.stu.edu.vn', '2023-06-03 01:40:14', '$2y$10$2qtC20oxnLT0HYPrJyurUOkExqQVFge6bjoWeo7v/iBUuqhFMCZ4u', 'Rj6sF7snnD8ZaOumIoEg6j83J5g4s7zfLhP1yIrMuTccL4SknS7jgLnVY6Vh', '2023-06-01 10:00:08', '2023-06-01 10:38:19');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `google_id`) VALUES
+(6, 'Xuân Toàn', 'DH51801108@student.stu.edu.vn', '2023-07-07 16:36:27', '$2y$10$2qtC20oxnLT0HYPrJyurUOkExqQVFge6bjoWeo7v/iBUuqhFMCZ4u', 'VCWhqvSB4tJYUnCEn0SK7IuRLyfED7uWuEDjs1LxcKiCt0T6ZZYlGDioJF5j', '2023-06-01 10:00:08', '2023-06-01 10:38:19', NULL);
 
 --
 -- Indexes for dumped tables
@@ -315,12 +392,6 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `tbladmin`
---
-ALTER TABLE `tbladmin`
-  ADD PRIMARY KEY (`id_admin`);
-
---
 -- Indexes for table `tbl_brand`
 --
 ALTER TABLE `tbl_brand`
@@ -334,11 +405,55 @@ ALTER TABLE `tbl_category`
   ADD UNIQUE KEY `tbl_category_name_category_unique` (`name_category`);
 
 --
+-- Indexes for table `tbl_customer`
+--
+ALTER TABLE `tbl_customer`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Indexes for table `tbl_detailsorder`
+--
+ALTER TABLE `tbl_detailsorder`
+  ADD PRIMARY KEY (`id_detailsorder`),
+  ADD KEY `id_order` (`id_order`),
+  ADD KEY `id_product` (`id_product`);
+
+--
+-- Indexes for table `tbl_order`
+--
+ALTER TABLE `tbl_order`
+  ADD PRIMARY KEY (`id_order`),
+  ADD KEY `id_user` (`id_customer`),
+  ADD KEY `id_shipping` (`id_shipping`),
+  ADD KEY `id_payment` (`id_payment`);
+
+--
+-- Indexes for table `tbl_payment`
+--
+ALTER TABLE `tbl_payment`
+  ADD PRIMARY KEY (`id_payment`);
+
+--
 -- Indexes for table `tbl_product`
 --
 ALTER TABLE `tbl_product`
   ADD PRIMARY KEY (`id_product`),
-  ADD KEY `id_category` (`id_category`,`id_brand`);
+  ADD KEY `id_category` (`id_category`,`id_brand`),
+  ADD KEY `id_category_2` (`id_category`),
+  ADD KEY `id_category_3` (`id_category`),
+  ADD KEY `id_brand` (`id_brand`);
+
+--
+-- Indexes for table `tbl_shipping`
+--
+ALTER TABLE `tbl_shipping`
+  ADD PRIMARY KEY (`id_shipping`);
+
+--
+-- Indexes for table `tbl_social_customer`
+--
+ALTER TABLE `tbl_social_customer`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -375,22 +490,40 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbladmin`
---
-ALTER TABLE `tbladmin`
-  MODIFY `id_admin` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `tbl_brand`
 --
 ALTER TABLE `tbl_brand`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
-  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_category` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+
+--
+-- AUTO_INCREMENT for table `tbl_customer`
+--
+ALTER TABLE `tbl_customer`
+  MODIFY `id_customer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tbl_detailsorder`
+--
+ALTER TABLE `tbl_detailsorder`
+  MODIFY `id_detailsorder` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
+
+--
+-- AUTO_INCREMENT for table `tbl_order`
+--
+ALTER TABLE `tbl_order`
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+
+--
+-- AUTO_INCREMENT for table `tbl_payment`
+--
+ALTER TABLE `tbl_payment`
+  MODIFY `id_payment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `tbl_product`
@@ -399,10 +532,48 @@ ALTER TABLE `tbl_product`
   MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
+-- AUTO_INCREMENT for table `tbl_shipping`
+--
+ALTER TABLE `tbl_shipping`
+  MODIFY `id_shipping` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+
+--
+-- AUTO_INCREMENT for table `tbl_social_customer`
+--
+ALTER TABLE `tbl_social_customer`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbl_detailsorder`
+--
+ALTER TABLE `tbl_detailsorder`
+  ADD CONSTRAINT `tbl_detailsorder_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `tbl_order` (`id_order`),
+  ADD CONSTRAINT `tbl_detailsorder_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `tbl_product` (`id_product`);
+
+--
+-- Constraints for table `tbl_order`
+--
+ALTER TABLE `tbl_order`
+  ADD CONSTRAINT `tbl_order_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `tbl_customer` (`id_customer`),
+  ADD CONSTRAINT `tbl_order_ibfk_2` FOREIGN KEY (`id_shipping`) REFERENCES `tbl_shipping` (`id_shipping`),
+  ADD CONSTRAINT `tbl_order_ibfk_3` FOREIGN KEY (`id_payment`) REFERENCES `tbl_payment` (`id_payment`);
+
+--
+-- Constraints for table `tbl_product`
+--
+ALTER TABLE `tbl_product`
+  ADD CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`id_brand`) REFERENCES `tbl_brand` (`id`),
+  ADD CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `tbl_category` (`id_category`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

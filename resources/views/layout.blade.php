@@ -60,29 +60,6 @@
                         <div class="logo pull-left">
                             <a href="index.html"><img src="{{('public/frontend/images/home/logo.png')}}" alt="" /></a>
                         </div>
-                        <div class="btn-group pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                    USA
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Canada</a></li>
-                                    <li><a href="#">UK</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                    DOLLAR
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Canadian Dollar</a></li>
-                                    <li><a href="#">Pound</a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
@@ -111,11 +88,17 @@
 
 
                                 <li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+
+
+
                                 <?php
                                    $id_customer = Session::get('id_customer');
+
                                    if($id_customer!=NULL){
                                  ?>
-                                  <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+                                  <li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-lock"></i> Đăng xuất</a>
+                                      {{Session::get('name_customer')}}
+                                  </li>
 
                                 <?php
                                 }else{
@@ -147,15 +130,7 @@
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a href="{{URL::to('/')}}" class="active">Trang chủ</a></li>
-                                <li class="dropdown"><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-
-                                    </ul>
-                                </li>
-                                <li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a>
-
-                                </li>
+                                <li><a href="{{URL::to('/express-delivery')}}">Giao hàng</a></li>
                                 <li><a href="{{URL::to('/show-cart')}}">Giỏ hàng</a></li>
                                 <li><a href="contact-us.html">Liên hệ</a></li>
                             </ul>
@@ -200,7 +175,7 @@
                             @foreach($category as $key=>$pro_cate)
                             <div class="panel panel-default">
 
-                                    <a class="dropdown-item" href="{{url('danh-muc/'.$pro_cate->id_category)}}">{{$pro_cate->name_category}}</a>
+                                    <a class="dropdown-item" align="center" href="{{url('danh-muc/'.$pro_cate->id_category)}}">{{$pro_cate->name_category}}</a>
 
                             </div>
                             @endforeach

@@ -13,6 +13,7 @@ use Session;
 use Cart;
 use Mail;
 use App\Http\Requests;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Customer;
 use App\Models\Shipping;
@@ -30,7 +31,23 @@ class CheckoutController extends Controller
     }
 
     public function add_customer(Request $request){
-        $data = array();
+        $data=$request->validate([
+            'name_customer'=>'required|max:255',
+            'email_customer'=>'required|max:255',
+            'password_customer'=>'required|max:255',
+            'phone_customer'=>'required',
+        ],
+            [
+                'name_customer.required' => 'Vui lòng nhập tên để đăng ký.',
+                'email_customer.required' => 'Vui lòng nhập email để đăng ký.',
+                'phone_customer.required' => 'Vui lòng nhập SDT để đăng ký.',
+                'password_customer.required' => 'Vui lòng nhập mật khẩu để đăng ký.',
+            ]
+        );
+
+
+
+//        $data = array();
         $data['name_customer'] = $request->name_customer;
         $data['phone_customer'] = $request->phone_customer;
         $data['email_customer'] = $request->email_customer;
@@ -62,7 +79,8 @@ class CheckoutController extends Controller
             Session::put('id_customer',$result->id_customer);
             return Redirect::to('/checkout');
         }else{
-            return Redirect::to('/login-checkout');
+
+            return Redirect::to('/login-checkout')->with('message','Thông tin đăng nhập sai.');
         }
 
     }
@@ -151,18 +169,17 @@ class CheckoutController extends Controller
             Cart::destroy();
             $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
             $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
-            return view('pages.Notify.notify')->with(compact('category','brand'));
+            return view('pages.Notify.Notify')->with(compact('category','brand'));
+
     }
 
 
-    public function manage_order(){
-//        $this->AuthLogin();
-        $all_order = DB::table('tbl_order')
-            ->join('tbl_customer','tbl_order.id_customer','=','tbl_customer.id_customer')
-            ->select('tbl_order.*','tbl_customer.name_customer')
-            ->orderby('tbl_order.id_order','desc')->get();
-        $manager_order  = view('admin.order_management')->with('all_order',$all_order);
-        return view('layout_admin')->with('admin.manage_order', $manager_order);
+    public function manage_order(Request $request){
+
+        $all_order=DB::table('tbl_order')
+            ->join('tbl_customer','tbl_customer.id_customer','=','tbl_order.id_customer')
+            ->orderby('tbl_order.id_order','DESC')->paginate(5);
+        return view('admin.order_management')->with(compact('all_order'));
 
     }
 
@@ -212,6 +229,12 @@ class CheckoutController extends Controller
             $order_d_data['price'] = $pro_content->price;
             DB::table('tbl_detailsorder')->insert($order_d_data);
         }
+        $customer=Customer::find(Session::get('id_customer'));
+        $datam['email'][]=$customer->email_customer;
+        Mail::send('pages.Email.email', $data, function($message) use ($datam,$customer){
+            $message->to($datam['email'],$customer)->subject('Email order');
+            $message->from('DH51801108@student.stu.edu.vn');
+        });
 
 
         $data=$request->all();
@@ -219,7 +242,7 @@ class CheckoutController extends Controller
 
         ///////////////////////////////////////////////////
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost/lvtnshop/notify";
+        $vnp_Returnurl = "http://lvtnshop.com/notify";
         $vnp_TmnCode = "XGOL0929";//Mã website tại VNPAY
         $vnp_HashSecret = "PBNGRUAEWYHSVLZLUMWFOMRXEZVFAJUV"; //Chuỗi bí mật
 
@@ -285,15 +308,6 @@ class CheckoutController extends Controller
         } else {
             echo json_encode($returnData);
         }
-
-//        $customer=Customer::find(Session::get('id_customer'));
-//        $datam['email'][]=$customer->email_customer;
-//        Mail::send('pages.Email.email', $data, function($message) use ($datam,$customer){
-//            $message->to($datam['email'],$customer)->subject('Email order');
-//            $message->from('DH51801108@student.stu.edu.vn');
-//        });
-//
-
     }
     public function notify(){
 
@@ -301,7 +315,13 @@ class CheckoutController extends Controller
         Cart::destroy();
         $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
         $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
-        return view('pages.Notify.notify')->with(compact('category','brand'));
+        return view('pages.Notify.Notify')->with(compact('category','brand'));
+    }
+
+    public function express_delivery(){
+        $category=Category::orderBy('id_category','DESC')->where('status_category',1)->get();
+        $brand=Brand::orderBy('id','DESC')->where('status_brand',1)->get();
+        return view('pages.Notify.Express_delivery')->with(compact('category','brand'));
     }
 
 

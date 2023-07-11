@@ -8,14 +8,13 @@
             <div class="row w3-res-tb">
                 <div class="col-sm-4">
                 </div>
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <input type="text" class="input-sm form-control" placeholder="Search">
-                        <span class="input-group-btn">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
+                <form action="" class="form-inline" role="form" >
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <input name="key" class="form-control" placeholder="Tìm kiếm sản phẩm"/>
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary" >Tìm kiếm</button>
+                </form>
             </div>
             <div class="table-responsive">
                 <?php
@@ -56,6 +55,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                {{ $all_order->links()}}
             </div>
 
         </div>

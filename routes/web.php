@@ -10,6 +10,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginGoogleController;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/',function (){
     return view('pages.homeuser');
@@ -38,6 +40,7 @@ Route::get('/payment',[CheckoutController::class,'payment']);
 Route::post('/order-payment',[CheckoutController::class,'order_payment']);
 Route::post('/p-payment',[CheckoutController::class,'p_payment']);
 Route::get('/notify',[CheckoutController::class,'notify']);
+Route::get('/express-delivery',[CheckoutController::class,'express_delivery']);
 
 
 Route::post('/login-customer',[CheckoutController::class,'login_customer']);
@@ -46,6 +49,9 @@ Route::get('/checkout',[CheckoutController::class,'checkout']);
 //Login facebook
 Route::get('/login-facebook',[AdminController::class,'login_facebook']);
 Route::get('/customer/facebook/callback',[AdminController::class,'callback_facebook_customer']);
+//Login google
+Route::get('auth/google', [LoginGoogleController::class, 'redirectToGoogle'])->name('login-google');
+Route::get('google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
 
 
 

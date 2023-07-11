@@ -50,7 +50,7 @@
                                 <img alt="" src="{{('public/backend/images/2.png')}}">
                                 <span class="username">
                                     <?php
-                                    $name = Session::get('name_admin');
+                                    $name = Session::get('name');
                                     if($name){
                                         echo $name;
 
@@ -60,11 +60,6 @@
                                 </span>
                                 <b class="caret"></b>
                             </a>
-
-
-
-
-
                             <ul class="dropdown-menu extended logout">
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"

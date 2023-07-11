@@ -18,5 +18,23 @@ class Customer extends Model
     public function order_customer(){
         return $this->hasMany('App\Models\Order');
     }
+//    public function order_customer()
+//    {
+//        return $this->hasMany(Order::class);
+//    }
+
+    public function google_customer()
+    {
+        return $this->hasMany('App\Models\SocialCustomer','id_customer');
+    }
+
+
+    public function scopeSearch($query)
+    {
+        if ($key = request()->key) {
+            $query=$query->where('name_customer', 'LIKE', '%' . $key . '%');
+        }
+        return $query;
+    }
 
 }
